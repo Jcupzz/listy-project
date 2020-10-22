@@ -1,16 +1,22 @@
 # listy
 
-A new Flutter application.
+A new Notes application.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Flutter installation guide: https://flutter.dev/docs/get-started/install
+Flutter installation video: https://www.youtube.com/watch?v=T9LdScRVhv8&feature=emb_logo
+(best to follow the guide)
 
-A few resources to get you started if this is your first Flutter project:
+Git installation: https://git-scm.com/
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Best source to learn flutter:https://dev.to/devdammak/top-10-youtube-channels-for-flutter-developers-2020-5ea8#:~:text=Top%2010%20Youtube%20channels%20for%20Flutter%20developers%20%282020%29,Code%20With%20Andrea.%205%20Marcus%20Ng.%20More%20items
+(I suggest netNinja and MtechViral)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+##Installation
+
+Fork this project.After completion sent me a pull request.
+
+##Project Structure
+
+![](assets/ListyListy_5.png)
