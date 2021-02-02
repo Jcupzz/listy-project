@@ -27,6 +27,7 @@ dependencies:
   flutter_spinkit: "^4.1.2"
   firebase_auth: ^0.20.0+1
   firebase_core: ^0.7.0
+  provider:
 
 
 
