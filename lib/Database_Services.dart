@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:listy/Error_Handling.dart';
-import 'package:provider/provider.dart';
 
 class Database_Services {
   DateTime now = new DateTime.now();
@@ -12,23 +11,20 @@ class Database_Services {
 
   Future<void> addTextToFb(String text, BuildContext context) async {
     DateTime date = new DateTime(now.year, now.month, now.day);
-    final firebaseUser = context.watch<User>();
+    final User firebaseUser = _auth.currentUser;
 
-    await firestore
-        .collection(firebaseUser.uid)
-        .add({
-          "date": date,
-          "time": now,
-          "text": text,
-        })
-        .then((value) => error_handling.printSuccess("Listy added!"))
-        .catchError((onError) => error_handling.printError(
-            "Something's wrong! check internet connection and try again!"));
+    await firestore.collection(firebaseUser.uid).add({
+      "date": date,
+      "time": now,
+      "text": text,
+    }).then((value) {
+       error_handling.printSuccess("Listy added!");
+    });
   }
 
   Future<void> deleteTextFromFb(
       DocumentSnapshot documentSnapshot, BuildContext context) async {
-    final firebaseUser = context.watch<User>();
+    final User firebaseUser = _auth.currentUser;
 
     await firestore
         .collection(firebaseUser.uid)

@@ -22,7 +22,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
-
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -31,7 +30,7 @@ class _HomeState extends State<Home> {
                 dynamic isLoggedOut = await context.read<
                     AuthenticationService>().signOut();
                 if (isLoggedOut.toString() == "Signed out") {
-                  Navigator.pushReplacementNamed(context, "/Register");
+                  //Navigator.pushReplacementNamed(context, "/Register");
                 }
               },
               icon: Icon(Icons.person_outline),
@@ -42,7 +41,9 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButton: FloatingActionButton(
         elevation: 20.0,
-        onPressed: showDialogfunction(context),
+        onPressed: (){
+          showDialogfunction(context);
+        },
         child: Icon(
           Icons.add,
           color: Colors.purple[900],
@@ -55,7 +56,7 @@ class _HomeState extends State<Home> {
             return false;
           },
           child: StreamBuilder<QuerySnapshot>(
-              stream: firestore.collection("firebaseUser.uid").snapshots(),
+              stream: firestore.collection(firebaseUser.uid).snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
@@ -74,7 +75,7 @@ class _HomeState extends State<Home> {
                             onLongPress: () {
                               showDeleteDialog(document);
                             },
-                            title: Text(document['userlisty']),
+                            title: Text(document['text']),
                           ));
                     }).toList(),
                   );
@@ -150,7 +151,7 @@ class _HomeState extends State<Home> {
                               }
                               texteditingcontroller.clear();
                               Navigator.pop(context);
-                              setState(() {});
+                              //setState(() {});
                             }
                           },
                           child: Text("Add"),
@@ -200,13 +201,7 @@ class _HomeState extends State<Home> {
           );
         });
 
-    // body: FlatButton(child:Text("SignOut"),onPressed: () async{
-    //   dynamic isLoggedOut = await context.read<AuthenticationService>().signOut();
-    //   if(isLoggedOut.toString()=="Signed out")
-    //     {
-    //       Navigator.pushReplacementNamed(context, "/Register");
-    //     }
-    // },),
+
 
   }
 
