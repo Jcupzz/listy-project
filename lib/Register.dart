@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:listy/AuthenticationServices/AuthenticationService.dart';
 import 'static/Loading.dart';
+import 'package:provider/provider.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -132,7 +135,7 @@ class _RegisterState extends State<Register> {
                             width: double.infinity,
                             child: PhysicalModel(
                               color: Colors.transparent,
-                               shadowColor: Colors.deepPurple[900],
+                              shadowColor: Colors.deepPurple[900],
                               elevation: 10,
                               shape: BoxShape.rectangle,
                               borderRadius: BorderRadius.circular(20),
@@ -140,6 +143,32 @@ class _RegisterState extends State<Register> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
                                 onPressed: () async {
+                                  if (_formkey.currentState.validate()) {
+                                    dynamic isSuccess = await context
+                                        .read<AuthenticationService>()
+                                        .signUp(
+                                            email: email, password: password);
+                                    if (isSuccess.toString() == "Signed up") {
+                                      Navigator.pushReplacementNamed(
+                                          context, '/Home');
+                                      BotToast.showSimpleNotification(
+                                        title:
+                                        " Welcome! ",
+                                        backgroundColor: Colors.
+                                        orangeAccent,
+
+                                      );
+                                    } else {
+                                      Navigator.pushReplacementNamed(
+                                          context, '/Register');
+                                      BotToast.showSimpleNotification(
+                                          title:
+                                              "Failed to register. Please check internet connection and try again!",
+                                          backgroundColor: Colors.red,
+
+                                      );
+                                    }
+                                  }
                                   // if (_formkey.currentState.validate()) {
                                   //   setState(() {
                                   //     loading = true;

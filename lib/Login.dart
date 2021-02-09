@@ -1,9 +1,9 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'static/Loading.dart';
 import 'AuthenticationServices/AuthenticationService.dart';
 import 'package:provider/provider.dart';
-
 
 class Login extends StatefulWidget {
   @override
@@ -17,9 +17,9 @@ class _LoginState extends State<Login> {
   String error = '';
   bool loading = false;
   dynamic isSuccess;
+
   @override
   Widget build(BuildContext context) {
-
     return loading
         ? Loading()
         : Scaffold(
@@ -133,51 +133,71 @@ class _LoginState extends State<Login> {
                           SizedBox(
                             height: 30,
                           ),
-                          FlatButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            onPressed: () async{
-                              print("Button presed");
-                               //
-                                if (_formkey.currentState.validate()) {
+                          Container(
+                            width: double.infinity,
+                            child: PhysicalModel(
+                              color: Colors.transparent,
+                              shadowColor: Colors.deepPurple[900],
+                              elevation: 10,
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(20),
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                onPressed: () async {
+                                  print("Button presed");
+                                  //
+                                  if (_formkey.currentState.validate()) {
+                                    //  setState(() {
+                                    // //   loading = true;
+                                    //  });
+                                    //  //
+                                    isSuccess = await context
+                                        .read<AuthenticationService>()
+                                        .signIn(email: email, password: password);
+                                    print(isSuccess);
+                                    if (isSuccess.toString() == "Signed in") {
+                                      Navigator.pushReplacementNamed(
+                                          context, '/Home');
+                                      BotToast.showSimpleNotification(
+                                        title:
+                                        "Welcome back!",
+                                        backgroundColor: Colors.orangeAccent,
+                                      );
+                                    } else {
+                                      Navigator.pushReplacementNamed(
+                                          context, '/Register');
+                                      BotToast.showSimpleNotification(
+                                        title:
+                                        "Failed to sign in. Please check internet connection and try again!",
+                                        backgroundColor: Colors.red,
 
-                                 //  setState(() {
-                                 // //   loading = true;
-                                 //  });
-                                 //  //
-                                  isSuccess = await context.read<AuthenticationService>().signIn(
-                                       email: email, password: password);
-                                  print(isSuccess);
-                                  if(isSuccess.toString()=="Signed in"){
-                                    Navigator.pushReplacementNamed(context, '/Home');
+                                      );
+                                    }
                                   }
-                                  else{
-                                    Navigator.pushReplacementNamed(context, '/Register');
-                                  }
-
-
-                                }
-                                 //}
-                                 //   dynamic result =
-                              //   await _auth.loginWithEmailAndPassword(
-                              //       email, password);
-                              //   if (result == null) {
-                              //     setState(() {
-                              //       loading = false;
-                              //       error = 'Invalid Credentials';
-                              //       print(
-                              //           "Oops...!\nSign in failed!\nInvalid Credentials");
-                              //     });
-                              //   } else {
-                              //     print('User Signed In Successfully');
-                              //     Navigator.pushNamed(context, '/List_home');
-                              //   }
-                              // }
-                            },
-                            color: Colors.deepOrange[400],
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                              child: Text("Sign in"),
+                                  //}
+                                  //   dynamic result =
+                                  //   await _auth.loginWithEmailAndPassword(
+                                  //       email, password);
+                                  //   if (result == null) {
+                                  //     setState(() {
+                                  //       loading = false;
+                                  //       error = 'Invalid Credentials';
+                                  //       print(
+                                  //           "Oops...!\nSign in failed!\nInvalid Credentials");
+                                  //     });
+                                  //   } else {
+                                  //     print('User Signed In Successfully');
+                                  //     Navigator.pushNamed(context, '/List_home');
+                                  //   }
+                                  // }
+                                },
+                                color: Colors.deepOrange[400],
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                                  child: Text("Sign in"),
+                                ),
+                              ),
                             ),
                           ),
 
