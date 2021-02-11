@@ -24,6 +24,7 @@ class _HomeState extends State<Home> {
     final firebaseUser = context.watch<User>();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.purple[900],
         actions: <Widget>[
           FlatButton.icon(
               onPressed: () async {
@@ -38,7 +39,6 @@ class _HomeState extends State<Home> {
         ],
         title: Text("Listy."),
         centerTitle: true,
-        backgroundColor: Colors.purple[900],
       ),
       floatingActionButton: FloatingActionButton(
         elevation: 20.0,
@@ -81,8 +81,8 @@ class _HomeState extends State<Home> {
                                   showDeleteDialog(document);
                                 },
                                 title: Padding(
-                                  padding: const EdgeInsets.fromLTRB(5,5,5,5),
-                                  child: Text(document['text']),
+                                  padding: const EdgeInsets.fromLTRB(0,5,5,5),
+                                  child: Text(document['text'],style: TextStyle(color: Colors.white),),
                                 ),
                               )),
                         );
