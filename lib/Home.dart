@@ -30,13 +30,14 @@ class _HomeState extends State<Home> {
                 dynamic isLoggedOut = await context.read<
                     AuthenticationService>().signOut();
                 if (isLoggedOut.toString() == "Signed out") {
-                  //Navigator.pushReplacementNamed(context, "/Register");
+                  Navigator.pushReplacementNamed(context, "/Register");
                 }
               },
               icon: Icon(Icons.person_outline),
               label: Text("SignOut"))
         ],
-        title: Text("Listy"),
+        title: Text("Listy."),
+        centerTitle: true,
         backgroundColor: Colors.purple[900],
       ),
       floatingActionButton: FloatingActionButton(
@@ -62,22 +63,31 @@ class _HomeState extends State<Home> {
                 if (!snapshot.hasData) {
                   return Text('Loading...');
                 } else {
-                  return ListView(
-                    children: snapshot.data.docs
-                        .map((DocumentSnapshot document) {
-                      return Card(
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(0,10,0,20),
+                    child: ListView(
+                      children: snapshot.data.docs
+                          .map((DocumentSnapshot document) {
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(10,0,10,0),
+                          child: Card(
 
-                          color: Colors.purple[900],
-                          elevation: 20,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0)),
-                          child: ListTile(
-                            onLongPress: () {
-                              showDeleteDialog(document);
-                            },
-                            title: Text(document['text']),
-                          ));
-                    }).toList(),
+                              color: Colors.deepPurple[600],
+                              elevation: 20,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14.0)),
+                              child: ListTile(
+                                onLongPress: () {
+                                  showDeleteDialog(document);
+                                },
+                                title: Padding(
+                                  padding: const EdgeInsets.fromLTRB(5,5,5,5),
+                                  child: Text(document['text']),
+                                ),
+                              )),
+                        );
+                      }).toList(),
+                    ),
                   );
                 }
               })),
@@ -107,8 +117,8 @@ class _HomeState extends State<Home> {
                       borderSide: BorderSide(color: Colors.red),
                     ),
                   ),
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                  cursorColor: Colors.tealAccent,
+                  style: TextStyle(fontSize: 18, color: Colors.black),
+                  cursorColor: Colors.deepOrange[200],
                   controller: texteditingcontroller,
                   onChanged: (value) {
                     toAdd = value;
@@ -133,6 +143,8 @@ class _HomeState extends State<Home> {
                           child: Text("Cancel"),
                         ),
                         RaisedButton(
+                          splashColor: Colors.greenAccent,
+                          color: Colors.green,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
