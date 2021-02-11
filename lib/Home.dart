@@ -23,26 +23,26 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.purple[900],
-        actions: <Widget>[
-          FlatButton.icon(
-              onPressed: () async {
-                dynamic isLoggedOut = await context.read<
-                    AuthenticationService>().signOut();
-                if (isLoggedOut.toString() == "Signed out") {
-                  Navigator.pushReplacementNamed(context, "/Register");
-                }
-              },
-              icon: Icon(Icons.person_outline),
-              label: Text("SignOut"))
-        ],
-        title: Text("Listy."),
-        centerTitle: true,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.purple[900],
+      //   actions: <Widget>[
+      //     FlatButton.icon(
+      //         onPressed: () async {
+      //           dynamic isLoggedOut = await context.read<
+      //               AuthenticationService>().signOut();
+      //           if (isLoggedOut.toString() == "Signed out") {
+      //             Navigator.pushReplacementNamed(context, "/Register");
+      //           }
+      //         },
+      //         icon: Icon(Icons.person_outline),
+      //         label: Text("SignOut"))
+      //   ],
+      //   title: Text("Listy."),
+      //   centerTitle: true,
+      // ),
       floatingActionButton: FloatingActionButton(
         elevation: 20.0,
-        onPressed: (){
+        onPressed: () {
           showDialogfunction(context);
         },
         child: Icon(
@@ -51,46 +51,72 @@ class _HomeState extends State<Home> {
         ),
         backgroundColor: Colors.deepOrange[200],
       ),
-      body: WillPopScope(
-          onWillPop: () async {
-            SystemNavigator.pop();
-            return false;
-          },
-          child: StreamBuilder<QuerySnapshot>(
-              stream: firestore.collection(firebaseUser.uid).snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData) {
-                  return Text('Loading...');
-                } else {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(0,10,0,20),
-                    child: ListView(
-                      children: snapshot.data.docs
-                          .map((DocumentSnapshot document) {
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(10,0,10,0),
-                          child: Card(
-
-                              color: Colors.deepPurple[600],
-                              elevation: 20,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14.0)),
-                              child: ListTile(
-                                onLongPress: () {
-                                  showDeleteDialog(document);
-                                },
-                                title: Padding(
-                                  padding: const EdgeInsets.fromLTRB(0,5,5,5),
-                                  child: Text(document['text'],style: TextStyle(color: Colors.white),),
-                                ),
-                              )),
-                        );
-                      }).toList(),
+      body: SafeArea(
+        child: WillPopScope(
+            onWillPop: () async {
+              SystemNavigator.pop();
+              return false;
+            },
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20,15,10,10),
+                  child: Text(
+                    "Listy.",
+                    style: TextStyle(
+                        fontSize: 60,
+                        color: Colors.deepOrange[200],
+                        fontWeight: FontWeight.bold,
                     ),
-                  );
-                }
-              })),
+                  ),
+                ),
+              ),
+              StreamBuilder<QuerySnapshot>(
+                  stream: firestore.collection(firebaseUser.uid).snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Text('Loading...');
+                    } else {
+                      return Expanded(
+                        child: ListView(
+                          shrinkWrap: true,
+                          children:
+                              snapshot.data.docs.map((DocumentSnapshot document) {
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              child: Card(
+                                  color: Colors.deepPurple[600],
+                                  elevation: 20,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(14.0)),
+                                  child: ListTile(
+                                    onLongPress: () {
+                                      showDeleteDialog(document);
+                                    },
+                                    title: Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 5, 5, 5),
+                                      child: Text(
+                                        document['text'],
+                                        maxLines: 5,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  )),
+                            );
+                          }).toList(),
+                        ),
+                      );
+                    }
+                  }),
+            ],
+          ),
+        ),
+      ),
       backgroundColor: Colors.purple[900],
     );
   }
@@ -152,14 +178,14 @@ class _HomeState extends State<Home> {
                             if (texteditingcontroller.text.isEmpty) {
                               Navigator.pop(context);
                             } else {
-                              dynamic isUploaded = database_services
-                                  .addTextToFb(toAdd, context);
+                              dynamic isUploaded =
+                                  database_services.addTextToFb(toAdd, context);
                               if (isUploaded == "uploaded") {
                                 BotToast.showText(text: "Listy added!");
-                              }
-                              else {
+                              } else {
                                 BotToast.showText(
-                                    text: "Something's wrong,check internet connection!");
+                                    text:
+                                        "Something's wrong,check internet connection!");
                               }
                               texteditingcontroller.clear();
                               Navigator.pop(context);
@@ -212,9 +238,5 @@ class _HomeState extends State<Home> {
             ],
           );
         });
-
-
-
   }
-
 }
