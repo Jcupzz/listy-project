@@ -14,6 +14,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int selectedValue;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   var toAdd;
   final texteditingcontroller = TextEditingController();
@@ -53,26 +54,91 @@ class _HomeState extends State<Home> {
       ),
       body: SafeArea(
         child: WillPopScope(
-            onWillPop: () async {
-              SystemNavigator.pop();
-              return false;
-            },
+          onWillPop: () async {
+            SystemNavigator.pop();
+            return false;
+          },
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20,15,10,10),
-                  child: Text(
-                    "Listy.",
-                    style: TextStyle(
-                        fontSize: 60,
-                        color: Colors.deepOrange[200],
-                        fontWeight: FontWeight.bold,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 15, 10, 10),
+                      child: Text(
+                        "Listy.",
+                        style: TextStyle(
+                          fontSize: 60,
+                          color: Colors.deepOrange[200],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  PopupMenuButton(
+                    color: Colors.deepPurple[200],
+                    padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
+                    icon: Icon(
+                      Icons.settings,
+                      color: Colors.deepOrange[200],
+                      size: 35,
+                    ),
+                    onSelected: (result) async {
+                      switch (result) {
+                        case 0:
+                          dynamic isLoggedOut = await context
+                              .read<AuthenticationService>()
+                              .signOut();
+                          if (isLoggedOut.toString() == "Signed out") {
+                            Navigator.pushReplacementNamed(
+                                context, "/Register");
+                          }
+                          break;
+                      }
+                    },
+                    itemBuilder: (BuildContext context) {
+                      return [
+                        PopupMenuItem(
+                            value: 0,
+                            child: Text(
+                              "SignOut",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ];
+                    },
+                  )
+                  // IconButton(
+                  //   splashColor: Colors.deepOrange,
+                  //   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  //     icon: Icon(
+                  //       Icons.settings,
+                  //       color: Colors.deepOrange[200],
+                  //       size: 40,
+                  //     ),
+                  //     onPressed: (){
+                  //
+                  //     })
+                  // DropdownButton(
+                  //     value: selectedValue,
+                  //     items: [
+                  //       DropdownMenuItem(
+                  //         child: Text("Male"),
+                  //         value: 1,
+                  //       ),
+                  //       DropdownMenuItem(
+                  //         child: Text("Female"),
+                  //         value: 2,
+                  //       ),
+                  //     ],
+                  //     onChanged: (value) {
+                  //       setState(() {
+                  //         selectedValue = value;
+                  //       });
+                  //     }),
+                ],
               ),
               StreamBuilder<QuerySnapshot>(
                   stream: firestore.collection(firebaseUser.uid).snapshots(),
@@ -84,15 +150,16 @@ class _HomeState extends State<Home> {
                       return Expanded(
                         child: ListView(
                           shrinkWrap: true,
-                          children:
-                              snapshot.data.docs.map((DocumentSnapshot document) {
+                          children: snapshot.data.docs
+                              .map((DocumentSnapshot document) {
                             return Padding(
                               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                               child: Card(
                                   color: Colors.deepPurple[600],
                                   elevation: 20,
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(14.0)),
+                                      borderRadius:
+                                          BorderRadius.circular(14.0)),
                                   child: ListTile(
                                     onLongPress: () {
                                       showDeleteDialog(document);
