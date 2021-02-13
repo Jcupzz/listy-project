@@ -12,29 +12,31 @@ class Database_Services {
 
   Future<void> addTextToFb(String text, BuildContext context,DocumentSnapshot documentSnapshot) async {
     final User firebaseUser = _auth.currentUser;
-
-    if(!(documentSnapshot == null))
-      {
-        await firestore.collection(firebaseUser.uid).doc(documentSnapshot.id).update({
-          "time":now,
-          "text":text,
-        }).then((value) {
+    if(text!=null) {
+      if (!(documentSnapshot == null)) {
+        await firestore.collection(firebaseUser.uid)
+            .doc(documentSnapshot.id)
+            .update({
+          "time": now,
+          "text": text,
+        })
+            .then((value) {
           error_handling.printSuccess("Listy updated!");
         });
       }
-    else{
-      await firestore.collection(firebaseUser.uid).add({
-        "time": now,
-        "text": text,
-      }).then((value) {
-        error_handling.printSuccess("Listy added!");
-      });
+      else {
+        await firestore.collection(firebaseUser.uid).add({
+          "time": now,
+          "text": text,
+        }).then((value) {
+          error_handling.printSuccess("Listy added!");
+        });
+      }
     }
-
   }
 
   Future<void> deleteTextFromFb(
-      DocumentSnapshot documentSnapshot, BuildContext context) async {
+      DocumentSnapshot documentSnapshot) async {
     final User firebaseUser = _auth.currentUser;
 
     await firestore

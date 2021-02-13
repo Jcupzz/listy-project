@@ -20,7 +20,7 @@ class Edit_Text extends StatefulWidget {
 }
 class _Edit_TextState extends State<Edit_Text> {
   TextEditingController texteditingcontroller = TextEditingController();
-  var toAdd;
+  String toAdd;
   Database_Services database_services = new Database_Services();
   @override
   void initState(){
@@ -88,7 +88,8 @@ class _Edit_TextState extends State<Edit_Text> {
                 child: TextField(
                   controller: texteditingcontroller,
                   onChanged: (value){
-                    toAdd = value;
+                      toAdd = value;
+                    print("value is"+value);
                   },
                   expands: true,
                   textAlign: TextAlign.start,

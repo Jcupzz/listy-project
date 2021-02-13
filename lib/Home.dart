@@ -18,7 +18,6 @@ class _HomeState extends State<Home> {
   int selectedValue;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   DocumentSnapshot documentSnapshot;
-  var onTapText;
   final texteditingcontroller = TextEditingController();
   Database_Services database_services = new Database_Services();
 
@@ -266,7 +265,7 @@ class _HomeState extends State<Home> {
               ),
               FlatButton(
                 onPressed: () {
-                  database_services.deleteTextFromFb(doc, context);
+                  database_services.deleteTextFromFb(doc);
                   Navigator.pop(context);
                 },
                 child: Text(
