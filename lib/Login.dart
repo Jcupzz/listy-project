@@ -148,10 +148,9 @@ class _LoginState extends State<Login> {
                                   print("Button presed");
                                   //
                                   if (_formkey.currentState.validate()) {
-                                    //  setState(() {
-                                    // //   loading = true;
-                                    //  });
-                                    //  //
+                                     setState(() {
+                                       loading = true;
+                                     });
                                     isSuccess = await context
                                         .read<AuthenticationService>()
                                         .signIn(email: email, password: password);

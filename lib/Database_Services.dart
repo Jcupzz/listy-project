@@ -10,17 +10,27 @@ class Database_Services {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> addTextToFb(String text, BuildContext context) async {
-    DateTime date = new DateTime(now.year, now.month, now.day);
+  Future<void> addTextToFb(String text, BuildContext context,DocumentSnapshot documentSnapshot) async {
     final User firebaseUser = _auth.currentUser;
 
-    await firestore.collection(firebaseUser.uid).add({
-      "date": date,
-      "time": now,
-      "text": text,
-    }).then((value) {
-       error_handling.printSuccess("Listy added!");
-    });
+    if(!(documentSnapshot == null))
+      {
+        await firestore.collection(firebaseUser.uid).doc(documentSnapshot.id).update({
+          "time":now,
+          "text":text,
+        }).then((value) {
+          error_handling.printSuccess("Listy updated!");
+        });
+      }
+    else{
+      await firestore.collection(firebaseUser.uid).add({
+        "time": now,
+        "text": text,
+      }).then((value) {
+        error_handling.printSuccess("Listy added!");
+      });
+    }
+
   }
 
   Future<void> deleteTextFromFb(

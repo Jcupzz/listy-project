@@ -7,9 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:listy/Database_Services.dart';
 
 class Edit_Text extends StatefulWidget {
-  String text;
-  Edit_Text(String text){
-    this.text = text;
+  //String text;
+  DocumentSnapshot documentSnapshot;
+  // Edit_Text(String text){
+  //   this.text = text;
+  // }
+  Edit_Text(DocumentSnapshot documentSnapshot){
+    this.documentSnapshot = documentSnapshot;
   }
   @override
   _Edit_TextState createState() => _Edit_TextState();
@@ -20,7 +24,15 @@ class _Edit_TextState extends State<Edit_Text> {
   Database_Services database_services = new Database_Services();
   @override
   void initState(){
-    texteditingcontroller = TextEditingController(text:widget.text);
+    if(widget.documentSnapshot == null)
+      {
+        print("null");
+        texteditingcontroller = TextEditingController(text: "");
+      }
+    else{
+      texteditingcontroller = TextEditingController(text:widget.documentSnapshot['text']);
+      print("not null");
+    }
     super.initState();
   }
   @override
@@ -59,15 +71,7 @@ class _Edit_TextState extends State<Edit_Text> {
                         if (texteditingcontroller.text.isEmpty) {
                           Navigator.pop(context);
                         } else {
-                          dynamic isUploaded =
-                          database_services.addTextToFb(toAdd, context);
-                          if (isUploaded == "uploaded") {
-                            BotToast.showText(text: "Listy added!");
-                          } else {
-                            BotToast.showText(
-                                text:
-                                "Something's wrong,check internet connection!");
-                          }
+                           database_services.addTextToFb(toAdd, context,widget.documentSnapshot);
                           texteditingcontroller.clear();
                           Navigator.pop(context);
                           //setState(() {});

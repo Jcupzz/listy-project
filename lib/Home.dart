@@ -17,6 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int selectedValue;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  DocumentSnapshot documentSnapshot;
   var onTapText;
   final texteditingcontroller = TextEditingController();
   Database_Services database_services = new Database_Services();
@@ -45,7 +46,7 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         elevation: 20.0,
         onPressed: () {
-          Navigator.pushNamed(context, '/EditText');
+          Navigator.push(context, MaterialPageRoute(builder: (_)=>Edit_Text(documentSnapshot)));
           // showDialogfunction(context);
         },
         child: Icon(
@@ -81,8 +82,8 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   PopupMenuButton(
-                    color: Colors.deepPurple[200],
-                    padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
+                    color: Colors.deepPurple[400],
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                     icon: Icon(
                       Icons.settings,
                       color: Colors.deepOrange[200],
@@ -91,13 +92,7 @@ class _HomeState extends State<Home> {
                     onSelected: (result) async {
                       switch (result) {
                         case 0:
-                          dynamic isLoggedOut = await context
-                              .read<AuthenticationService>()
-                              .signOut();
-                          if (isLoggedOut.toString() == "Signed out") {
-                            Navigator.pushReplacementNamed(
-                                context, "/Register");
-                          }
+                        showSignOutConfirmation();
                           break;
                       }
                     },
@@ -107,7 +102,7 @@ class _HomeState extends State<Home> {
                             value: 0,
                             child: Text(
                               "SignOut",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
                             )),
                       ];
                     },
@@ -136,7 +131,7 @@ class _HomeState extends State<Home> {
                                           BorderRadius.circular(14.0)),
                                   child: ListTile(
                                     onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (_)=>Edit_Text(document['text'])));
+                                      Navigator.push(context, MaterialPageRoute(builder: (_)=>Edit_Text(document)));
                                     },
                                     onLongPress: () {
                                       showDeleteDialog(document);
@@ -254,11 +249,11 @@ class _HomeState extends State<Home> {
         builder: (context) {
           return AlertDialog(
             elevation: 24,
-            backgroundColor: Colors.purple[900],
+            backgroundColor: Colors.deepPurple[600],
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
-            title: Text("Delete"),
-            content: Text("Do you want to delete this Listy?"),
+            title: Text("Delete",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
+            content: Text("Do you want to delete this Listy?",style: TextStyle(color: Colors.white),),
             actions: <Widget>[
               FlatButton(
                 onPressed: () {
@@ -266,7 +261,7 @@ class _HomeState extends State<Home> {
                 },
                 child: Text(
                   "No",
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(color: Colors.greenAccent,fontSize: 18),
                 ),
               ),
               FlatButton(
@@ -276,7 +271,47 @@ class _HomeState extends State<Home> {
                 },
                 child: Text(
                   "Yes",
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(fontSize: 18 ,color: Colors.redAccent),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+  void showSignOutConfirmation(){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            elevation: 24,
+            backgroundColor: Colors.deepPurple[600],
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)),
+            title: Text("SignOut",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
+            content: Text("Are you sure?",style: TextStyle(color: Colors.white),),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "No",
+                  style: TextStyle(color: Colors.greenAccent,fontSize: 18),
+                ),
+              ),
+              FlatButton(
+                onPressed: () async {
+                  dynamic isLoggedOut = await context
+                      .read<AuthenticationService>()
+                      .signOut();
+                  if (isLoggedOut.toString() == "Signed out") {
+                    Navigator.pushReplacementNamed(
+                        context, "/Register");
+                  }
+                },
+                child: Text(
+                  "Yes",
+                  style: TextStyle(fontSize: 18 ,color: Colors.redAccent),
                 ),
               ),
             ],

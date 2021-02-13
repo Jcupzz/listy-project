@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+  DocumentSnapshot documentSnapshot;
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -29,7 +31,6 @@ class MyApp extends StatelessWidget {
             navigatorObservers: [BotToastNavigatorObserver()],
             home: AuthenticationWrapper(),
             routes: {
-              '/EditText':(context)=>Edit_Text(""),
               '/SplashScreen': (context) => SplashScreen(),
               '/Login': (context) => Login(),
               '/Register': (context) => Register(),

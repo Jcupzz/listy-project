@@ -144,6 +144,9 @@ class _RegisterState extends State<Register> {
                                     borderRadius: BorderRadius.circular(20)),
                                 onPressed: () async {
                                   if (_formkey.currentState.validate()) {
+                                    setState(() {
+                                      loading = true;
+                                    });
                                     dynamic isSuccess = await context
                                         .read<AuthenticationService>()
                                         .signUp(
