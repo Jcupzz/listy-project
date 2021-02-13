@@ -44,27 +44,29 @@ class _Edit_TextState extends State<Edit_Text> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                // IconButton(
-                //   padding: EdgeInsets.fromLTRB(5, 5, 10, 0),
-                //     icon: Icon(
-                //       Icons.cancel,
-                //       color: Colors.red,
-                //       size: 30,
-                //     ),
-                //     onPressed: () {
-                //       //TODO: Add cancel
-                //     }),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10,0,0,0),
+                  child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_rounded,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
                   child: IconButton(
                     splashColor: Colors.greenAccent,
                       icon: Icon(
                         Icons.done,
-                        color: Colors.green,
+                        color: Colors.white,
                         size: 30,
                       ),
                       onPressed: () {
@@ -89,7 +91,6 @@ class _Edit_TextState extends State<Edit_Text> {
                   controller: texteditingcontroller,
                   onChanged: (value){
                       toAdd = value;
-                    print("value is"+value);
                   },
                   expands: true,
                   textAlign: TextAlign.start,
