@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:listy/Database_Services.dart';
+import 'package:listy/Edit_Text.dart';
 import 'package:provider/provider.dart';
 import 'AuthenticationServices/AuthenticationService.dart';
 
@@ -16,7 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int selectedValue;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  var toAdd;
+  var onTapText;
   final texteditingcontroller = TextEditingController();
   Database_Services database_services = new Database_Services();
 
@@ -44,7 +45,8 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         elevation: 20.0,
         onPressed: () {
-          showDialogfunction(context);
+          Navigator.pushNamed(context, '/EditText');
+          // showDialogfunction(context);
         },
         child: Icon(
           Icons.add,
@@ -110,34 +112,6 @@ class _HomeState extends State<Home> {
                       ];
                     },
                   )
-                  // IconButton(
-                  //   splashColor: Colors.deepOrange,
-                  //   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  //     icon: Icon(
-                  //       Icons.settings,
-                  //       color: Colors.deepOrange[200],
-                  //       size: 40,
-                  //     ),
-                  //     onPressed: (){
-                  //
-                  //     })
-                  // DropdownButton(
-                  //     value: selectedValue,
-                  //     items: [
-                  //       DropdownMenuItem(
-                  //         child: Text("Male"),
-                  //         value: 1,
-                  //       ),
-                  //       DropdownMenuItem(
-                  //         child: Text("Female"),
-                  //         value: 2,
-                  //       ),
-                  //     ],
-                  //     onChanged: (value) {
-                  //       setState(() {
-                  //         selectedValue = value;
-                  //       });
-                  //     }),
                 ],
               ),
               StreamBuilder<QuerySnapshot>(
@@ -161,6 +135,10 @@ class _HomeState extends State<Home> {
                                       borderRadius:
                                           BorderRadius.circular(14.0)),
                                   child: ListTile(
+                                    onTap: (){
+                                      print("document is: "+document['text']);
+                                      Navigator.pushNamed(context, '/EditText');
+                                    },
                                     onLongPress: () {
                                       showDeleteDialog(document);
                                     },
@@ -188,88 +166,88 @@ class _HomeState extends State<Home> {
     );
   }
 
-  showDialogfunction(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)),
-            title: Text('Add to Listy'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextField(
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    labelText: "Save to Listy",
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(color: Colors.red),
-                    ),
-                  ),
-                  style: TextStyle(fontSize: 18, color: Colors.black),
-                  cursorColor: Colors.deepOrange[200],
-                  controller: texteditingcontroller,
-                  onChanged: (value) {
-                    toAdd = value;
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: Container(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        RaisedButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                            texteditingcontroller.clear();
-                          },
-                          color: Colors.red,
-                          child: Text("Cancel"),
-                        ),
-                        RaisedButton(
-                          splashColor: Colors.greenAccent,
-                          color: Colors.green,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          onPressed: () {
-                            if (texteditingcontroller.text.isEmpty) {
-                              Navigator.pop(context);
-                            } else {
-                              dynamic isUploaded =
-                                  database_services.addTextToFb(toAdd, context);
-                              if (isUploaded == "uploaded") {
-                                BotToast.showText(text: "Listy added!");
-                              } else {
-                                BotToast.showText(
-                                    text:
-                                        "Something's wrong,check internet connection!");
-                              }
-                              texteditingcontroller.clear();
-                              Navigator.pop(context);
-                              //setState(() {});
-                            }
-                          },
-                          child: Text("Add"),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
-  }
+  // showDialogfunction(BuildContext context) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //           shape: RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.circular(20.0)),
+  //           title: Text('Add to Listy'),
+  //           content: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: <Widget>[
+  //               TextField(
+  //                 maxLines: null,
+  //                 decoration: InputDecoration(
+  //                   labelText: "Save to Listy",
+  //                   fillColor: Colors.white,
+  //                   border: OutlineInputBorder(
+  //                     borderRadius: BorderRadius.circular(20),
+  //                     borderSide: BorderSide(color: Colors.red),
+  //                   ),
+  //                 ),
+  //                 style: TextStyle(fontSize: 18, color: Colors.black),
+  //                 cursorColor: Colors.deepOrange[200],
+  //                 controller: texteditingcontroller,
+  //                 onChanged: (value) {
+  //                   toAdd = value;
+  //                 },
+  //               ),
+  //               Padding(
+  //                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+  //                 child: Container(
+  //                   child: Row(
+  //                     mainAxisSize: MainAxisSize.max,
+  //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //                     children: <Widget>[
+  //                       RaisedButton(
+  //                         shape: RoundedRectangleBorder(
+  //                           borderRadius: BorderRadius.circular(8.0),
+  //                         ),
+  //                         onPressed: () {
+  //                           Navigator.pop(context);
+  //                           texteditingcontroller.clear();
+  //                         },
+  //                         color: Colors.red,
+  //                         child: Text("Cancel"),
+  //                       ),
+  //                       RaisedButton(
+  //                         splashColor: Colors.greenAccent,
+  //                         color: Colors.green,
+  //                         shape: RoundedRectangleBorder(
+  //                           borderRadius: BorderRadius.circular(8.0),
+  //                         ),
+  //                         onPressed: () {
+  //                           if (texteditingcontroller.text.isEmpty) {
+  //                             Navigator.pop(context);
+  //                           } else {
+  //                             dynamic isUploaded =
+  //                                 database_services.addTextToFb(toAdd, context);
+  //                             if (isUploaded == "uploaded") {
+  //                               BotToast.showText(text: "Listy added!");
+  //                             } else {
+  //                               BotToast.showText(
+  //                                   text:
+  //                                       "Something's wrong,check internet connection!");
+  //                             }
+  //                             texteditingcontroller.clear();
+  //                             Navigator.pop(context);
+  //                             //setState(() {});
+  //                           }
+  //                         },
+  //                         child: Text("Add"),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         );
+  //       });
+  // }
 
   void showDeleteDialog(DocumentSnapshot doc) {
     showDialog(
