@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:listy/Database_Services.dart';
 import 'package:listy/Edit_Text.dart';
+import 'package:listy/static/Loading.dart';
 import 'package:provider/provider.dart';
 import 'AuthenticationServices/AuthenticationService.dart';
 
@@ -109,11 +110,11 @@ class _HomeState extends State<Home> {
                 ],
               ),
               StreamBuilder<QuerySnapshot>(
-                  stream: firestore.collection(firebaseUser.uid).snapshots(),
+                  stream: firestore.collection(firebaseUser.uid).orderBy('time',descending: true).snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (!snapshot.hasData) {
-                      return Text('Loading...');
+                      return Loading();
                     } else {
                       return Expanded(
                         child: ListView(
