@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
             navigatorObservers: [BotToastNavigatorObserver()],
             home: AuthenticationWrapper(),
             routes: {
-              '/EditText':(context)=>Edit_Text(),
+              '/EditText':(context)=>Edit_Text(""),
               '/SplashScreen': (context) => SplashScreen(),
               '/Login': (context) => Login(),
               '/Register': (context) => Register(),

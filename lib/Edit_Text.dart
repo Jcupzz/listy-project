@@ -1,19 +1,28 @@
 import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:listy/Database_Services.dart';
 
 class Edit_Text extends StatefulWidget {
+  String text;
+  Edit_Text(String text){
+    this.text = text;
+  }
   @override
   _Edit_TextState createState() => _Edit_TextState();
 }
-
 class _Edit_TextState extends State<Edit_Text> {
-  final texteditingcontroller = TextEditingController();
+  TextEditingController texteditingcontroller = TextEditingController();
   var toAdd;
   Database_Services database_services = new Database_Services();
+  @override
+  void initState(){
+    texteditingcontroller = TextEditingController(text:widget.text);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -136,8 +136,7 @@ class _HomeState extends State<Home> {
                                           BorderRadius.circular(14.0)),
                                   child: ListTile(
                                     onTap: (){
-                                      print("document is: "+document['text']);
-                                      Navigator.pushNamed(context, '/EditText');
+                                      Navigator.push(context, MaterialPageRoute(builder: (_)=>Edit_Text(document['text'])));
                                     },
                                     onLongPress: () {
                                       showDeleteDialog(document);

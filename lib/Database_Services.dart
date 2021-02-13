@@ -5,6 +5,7 @@ import 'package:listy/Error_Handling.dart';
 
 class Database_Services {
   DateTime now = new DateTime.now();
+
   Error_Handling error_handling = new Error_Handling();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -37,4 +38,5 @@ class Database_Services {
           "Something's wrong! check internet connection and try again!");
     });
   }
+
 }
