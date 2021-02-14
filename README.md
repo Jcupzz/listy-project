@@ -21,6 +21,20 @@ Fork this project.After completion sent me a pull request.
 
 ![](assets/ListyListy_5.png)
 
+## Screenshots
+
+<p float="left">
+  <img src="assets/Screenshot_20210214_104836.jpg" width="200" />
+  <img src="assets/Screenshot_20210214_104850.jpg" width="200" />
+  <img src="assets/Screenshot_20210214_104906.jpg" width="200" />
+  <img src="assets/Screenshot_20210214_104926.jpg" width="200" />
+  <img src="assets/Screenshot_20210214_104935.jpg" width="200" />
+  <img src="assets/Screenshot_20210214_104943.jpg" width="200" />
+  <img src="assets/Screenshot_20210214_105000.jpg" width="200" />
+</p>
+
+
+
 Project completed on february 14th 2021
 
 Apk file is in the project.
