@@ -1,6 +1,6 @@
-# listy
+# Listy
 
-A new Notes application.
+A feature packed notes taking application.
 
 ## Getting Started
 
@@ -20,3 +20,8 @@ Fork this project.After completion sent me a pull request.
 ## Project Structure
 
 ![](assets/ListyListy_5.png)
+
+Project completed on february 14th 2021
+
+Apk file is in the project.
+Hosted link: https://listy-project.firebaseapp.com/#/
