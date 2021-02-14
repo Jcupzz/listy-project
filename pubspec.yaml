@@ -48,7 +48,13 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
+  fonts:
+    - family: Lobster
+      fonts:
+        - asset: assets/font/Lobster-Regular.ttf
+    - family: Sans
+      fonts:
+        - asset: assets/font/OpenSans-Light.ttf
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -61,6 +67,7 @@ flutter:
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
+
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
@@ -79,13 +86,6 @@ flutter_icons:
   adaptive_icon_background: "assets/icon/android-bg.png" # only available for Android 8.0 devices and above
   adaptive_icon_foreground: "assets/icon/android-fg.png"
 
-  fonts:
-    - family: Lobster
-      fonts:
-        - asset: assets/font/Lobster-Regular.ttf
-    - family: Sans
-      fonts:
-        - asset: assets/font/OpenSans-Light.ttf
 
 
   # For details regarding fonts from package dependencies,
