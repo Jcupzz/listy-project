@@ -37,5 +37,5 @@ Fork this project.After completion sent me a pull request.
 
 Project completed on february 14th 2021
 
-Apk file is in the project.
+Apk file is in the assets folder.
 Hosted link: https://listy-project.firebaseapp.com/#/
